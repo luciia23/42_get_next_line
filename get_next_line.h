@@ -6,7 +6,7 @@
 /*   By: lcollado <lcollado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:13:20 by lcollado          #+#    #+#             */
-/*   Updated: 2023/01/14 23:32:49 by lcollado         ###   ########.fr       */
+/*   Updated: 2023/02/09 15:53:27 by lcollado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 //directivas de preprocesador
 //evita la definición múltiple de una variable al utilizar la directiva "#ifndef"
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+# define BUFFER_SIZE 5
 #endif 
 
 
