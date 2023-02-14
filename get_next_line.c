@@ -18,24 +18,34 @@
 #include "get_next_line.h"
 /*Utilizamos variables estáticas para que su valor se mantenga en las diferentes llamadas a la función*/
 
-static char	*get_line(int fd, char *buffer, char *remainder)
+//Lee el archivo hasta llegar a un salto de línea y lo guarda en la estática
+static char	*read_line(int fd, char *buffer, char *remainder)
 {
-	int bytes_read;
+	char	*tmp;
+	int 	bytes_read;
+	int		i;
 
 	bytes_read = 1;
+	i = 0;
+	printf("%p2\n", remainder);
 	while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
+		printf("char->%i%s\n", i, buffer);
+		tmp = remainder;
 		if (bytes_read < 0)
 		{
 			free(remainder);
 			remainder = NULL;
 			return (remainder);
 		}
-		remainder = ft_strjoin(remainder, buffer);
-		if (ft_strchr(buffer, '\n'))
-			break ;
+		remainder = ft_strjoin(tmp, buffer);
+		printf("temp -> %s\n", remainder);
+		while (buffer[i] != '\0' && buffer[i] != '\n')
+			i++;
+		if (buffer[i] == '\n')
+			return (remainder);
 	}
-	printf("temp -> %s\n", remainder);
+	free(buffer);
 	return (remainder);
 }
 
@@ -50,10 +60,9 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	remainder = NULL;
-	line = get_line(fd, buffer, remainder);
-	free(buffer);
-	buffer = NULL;
+	printf("%p1\n", &remainder);
+	remainder = read_line(fd, buffer, remainder);
+	//buffer = NULL;
 	return (line);
 }
 
