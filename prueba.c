@@ -48,3 +48,56 @@ int main(){
 
 	return 0;
 }
+
+
+char *get_line_from_remainder(char *remainder)
+{
+  char *line;		
+  int i;
+
+  i = 0;
+  while (remainder[i] && remainder[i] != '\n')
+    i++;
+  line = (char *)malloc((i + 1) * sizeof(char));
+  if (!line)
+    return (NULL);
+  i = 0;
+  while (remainder[i] && remainder[i] != '\n')
+  {
+    line[i] = remainder[i];
+    i++;
+  }
+  line[i] = '\0';
+  return (line);
+}
+
+char *get_remainder_from_string(char *remainder)
+{
+  char *new_remainder;
+  int i;
+  int j;
+
+  i = 0;
+  while (remainder[i] && remainder[i] != '\n')
+    i++;
+  if (!remainder[i])
+  {
+    free(remainder);
+    return (NULL);
+  }
+  new_remainder = (char *)malloc((ft_strlen(remainder) - i + 1) * sizeof(char));
+  if (!new_remainder)
+    return (NULL);
+  i++;
+  j = 0;
+  while (remainder[i])
+  {
+    new_remainder[j] = remainder[i];
+    i++;
+    j++;
+  }
+  new_remainder[j] = '\0';
+  printf("new remainder%s", new_remainder);
+  free(remainder);
+  return (new_remainder);
+}

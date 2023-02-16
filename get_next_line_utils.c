@@ -44,24 +44,6 @@ char    *ft_strdup(const char *s)
     return (str);
 }
 
-char    *ft_strndup(const char *s, size_t n)
-{
-    char    *str;
-    int     i;
-
-    str = (char *) malloc (sizeof(char) * (n + 1));
-    i = 0;
-    if (!str)
-        return (NULL);
-    while (i < n)
-    {
-        str[i] = s[i];
-        i++;
-    }
-    str[i] = '\0';
-    return (str);
-}
-
 char    *ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;

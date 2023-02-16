@@ -24,7 +24,7 @@ char	*read_line(int fd, char *buffer, char *remainder)
 	int	bytes_read;
 
 	bytes_read = 1;
-	while (bytes_read > 0)
+	while (bytes_read > 0 && !ft_strchr(buffer, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
@@ -33,64 +33,42 @@ char	*read_line(int fd, char *buffer, char *remainder)
 			return (NULL);
 		}
 		buffer[bytes_read] = '\0';
-		if (ft_strchr(buffer, '\n'))
-			break ;
 		remainder = ft_strjoin(remainder, buffer);
 	}
 	free(buffer);
+	printf("remainder.%s\n", remainder);
 	return (remainder);
 }
 
-char *get_line_from_remainder(char *remainder)
+char	*get_line(char *remainder)
 {
-  char *line;
-  int i;
+	char	*line;
+	int		i;
 
-  i = 0;
-  while (remainder[i] && remainder[i] != '\n')
-    i++;
-  line = (char *)malloc((i + 1) * sizeof(char));
-  if (!line)
-    return (NULL);
-  i = 0;
-  while (remainder[i] && remainder[i] != '\n')
-  {
-    line[i] = remainder[i];
-    i++;
-  }
-  line[i] = '\0';
-  return (line);
+	i = 0;
+	printf("%s\n", remainder);
+	while (remainder[i] != '\n')
+	{
+		i++;
+		printf("%i", i);
+	}
+	line = (char *)malloc(sizeof(char) * (i + 1));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (remainder[i] != '\n')
+	{
+		line[i] = remainder[i];
+		i++;
+	}
+	line[i] = '\0';
+	printf("line.%s\n", line);
+	return (line);
 }
-
-char *get_remainder_from_string(char *remainder)
+//mover la posición para después del salto de línea, y que siga imprimiendo desde ahí
+char	*move_position(char *remainder)
 {
-  char *new_remainder;
-  int i;
-  int j;
-
-  i = 0;
-  while (remainder[i] && remainder[i] != '\n')
-    i++;
-  if (!remainder[i])
-  {
-    free(remainder);
-    return (NULL);
-  }
-  new_remainder = (char *)malloc((ft_strlen(remainder) - i + 1) * sizeof(char));
-  if (!new_remainder)
-    return (NULL);
-  i++;
-  j = 0;
-  while (remainder[i])
-  {
-    new_remainder[j] = remainder[i];
-    i++;
-    j++;
-  }
-  new_remainder[j] = '\0';
-  printf("%s", new_remainder);
-  free(remainder);
-  return (new_remainder);
+	
 }
 
 char	*get_next_line(int fd)
@@ -105,10 +83,9 @@ char	*get_next_line(int fd)
 	if (!buffer)
 		return (NULL);
 	remainder = read_line(fd, buffer, remainder);
-	line = get_line_from_remainder(remainder);
-	remainder = get_remainder_from_string(remainder);
-	free(buffer);
-	return (remainder);
+	line = get_line(remainder);
+	//remainder = get_remainder_from_string(remainder);
+	return (line);
 }
 
 int main(){
