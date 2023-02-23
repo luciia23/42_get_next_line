@@ -6,7 +6,7 @@
 /*   By: lcollado <lcollado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:13:20 by lcollado          #+#    #+#             */
-/*   Updated: 2023/02/16 17:39:24 by lcollado         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:32:48 by lcollado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ size_t  ft_strlen(const char *str);
 char    *ft_strchr(const char *s, int c);
 char    *ft_strdup(const char *s);
 char    *ft_strjoin(char *s1, char *s2);
+void	*ft_calloc(size_t nmeb, size_t size);
 
 #endif

@@ -19,6 +19,8 @@
 /*Utilizamos variables estáticas para que su valor se mantenga en las diferentes llamadas a la función*/
 
 //Lee el archivo hasta llegar a un salto de línea y lo guarda en la estática
+/*tengo que ver que cuando el remainder esté vacío en las siguientes llamadas*/
+//bucle infinito
 char	*read_line(int fd, char *buffer, char *remainder)
 {
 	int	bytes_read;
@@ -27,6 +29,8 @@ char	*read_line(int fd, char *buffer, char *remainder)
 	while (bytes_read > 0 && !ft_strchr(buffer, '\n'))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == 0)
+			break ;
 		if (bytes_read < 0)
 		{
 			free(buffer);
@@ -46,17 +50,13 @@ char	*get_line(char *remainder)
 	int		i;
 
 	i = 0;
-	printf("%s\n", remainder);
-	while (remainder[i] != '\n')
-	{
+	while (remainder[i] != '\n' && remainder[i] != 0)
 		i++;
-		printf("%i", i);
-	}
-	line = (char *)malloc(sizeof(char) * (i + 1));
+	line = (char *)ft_calloc(sizeof(char), (i +1));
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (remainder[i] != '\n')
+	while (remainder[i] != '\n' && remainder[i] != 0)
 	{
 		line[i] = remainder[i];
 		i++;
@@ -68,7 +68,14 @@ char	*get_line(char *remainder)
 //mover la posición para después del salto de línea, y que siga imprimiendo desde ahí
 char	*move_position(char *remainder)
 {
-	
+	int	i;
+
+	i = 0;
+	while (remainder[i] != '\n' && remainder[i] != 0)
+		i++;
+	i++;
+	printf("prueba -->%s-\n", &remainder[i]);
+	return (&remainder[i]);	
 }
 
 char	*get_next_line(int fd)
@@ -79,39 +86,26 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buffer)
 		return (NULL);
 	remainder = read_line(fd, buffer, remainder);
 	line = get_line(remainder);
-	//remainder = get_remainder_from_string(remainder);
+	remainder = move_position(remainder);
+	printf("REMAINDER -->%s\n", remainder);
 	return (line);
 }
 
-int main(){
+int main(int argc, char *argv[]){
 	int fd;
 	char *line;
 
 	fd = open("texto.txt", O_RDONLY);
 	line = get_next_line(fd);
-	printf("primera llamada%s\n", line);
-	line = get_next_line(fd);
-	printf("segunda llamada%s\n", line);
-	
-	//free(line);
-	close(fd);
-		
-	return (0);
-}
-
-/*int main(int argc, char **argv){
-	int fd;
-	char *line;
-
-	fd = open(argv[1], O_RDONLY);
-	while ((line = get_next_line(fd))!= NULL)
+	// printf("primera llamada ---->%s\n", line);
+	while(line)
 	{
-		printf("%s\n", line);
+		printf("----->%s\n", line);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -119,41 +113,4 @@ int main(){
 	close(fd);
 		
 	return (0);
-} */
-
-/*char	*get_next_line(int fd)
-{
-	static char	 *buffer;
-	static ssize_t	 bytes_count;
-	static int	  index;
-	char			*line;
-	int				 i;
-
-	index = 0;
-	i = 0;
-	if (fd < 0 || BUFFER_SIZE < 1)
-		return (NULL);
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buffer)
-		return (NULL);
-	while (ft_strchr(buffer, '\n'))
-	{
-		printf("\nEntra aquí\n");
-		bytes_count = read(fd, buffer, BUFFER_SIZE);
-		printf("\nBytes count dentro: %zd", bytes_count);
-		if (bytes_count < 0){
-			free(buffer);
-			return (NULL);
-		}
-		if (bytes_count == 0)
-			break ;
-		index += bytes_count;
-		printf("\nBuffer: %s", buffer);
-	}
-	printf("\nBytes count fuera: %zd", bytes_count);
-	printf("\nIndex estático: %d", index);
-	printf("\n-----------\n ");
-	line = "aaaaaa";
-	return (line);
-
-}*/
+}
