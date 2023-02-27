@@ -6,7 +6,7 @@
 /*   By: lcollado <lcollado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:13:20 by lcollado          #+#    #+#             */
-/*   Updated: 2023/02/23 17:32:48 by lcollado         ###   ########.fr       */
+/*   Updated: 2023/02/27 19:37:28 by lcollado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 //directivas de preprocesador
 //evita la definición múltiple de una variable al utilizar la directiva "#ifndef"
 # ifndef BUFFER_SIZE
-# define  BUFFER_SIZE 4
+# define  BUFFER_SIZE 1
 #endif 
 
+char	*get_next_line(int fd);
 
 size_t  ft_strlen(const char *str);
 char    *ft_strchr(const char *s, int c);
