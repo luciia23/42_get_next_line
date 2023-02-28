@@ -19,12 +19,17 @@
 /*Utilizamos variables estáticas para que su valor se mantenga en las diferentes llamadas a la función*/
 
 //Lee el archivo hasta llegar a un salto de línea y lo guarda en la estática
-char *read_line(int fd,char *buffer, char *remainder)
+void leaks()
+{
+	system("leaks -q a.out");
+}
+char *read_line(int fd,char *buffer, char **remainder)
 {
     int 	bytes_read;
+	char	*tmp;
 
     bytes_read = 1;
-    while (bytes_read > 0 && !ft_strchr(remainder, '\n'))
+    while (bytes_read > 0 && !ft_strchr(*remainder, '\n'))
     {
         bytes_read = read(fd, buffer, BUFFER_SIZE);
         if (bytes_read == 0)
@@ -36,10 +41,12 @@ char *read_line(int fd,char *buffer, char *remainder)
             return (NULL);
         }
         buffer[bytes_read] = '\0';
-        remainder = ft_strjoin(remainder, buffer);
+		tmp = *remainder;
+        *remainder = ft_strjoin(tmp, buffer);
     }
+	printf("Read--------%p\n", remainder);
     free(buffer);
-    return (remainder);
+    return (*remainder);
 }
 
 //Obtiene la linea antes del \n
@@ -60,7 +67,7 @@ char	*get_line(char *remainder)
 		line[i] = remainder[i];
 		i++;
 	}
-	if (remainder[i] == '\n')
+	if (ft_strchr(remainder, '\n'))
 	{
 		line[i] = remainder[i];
 		i++;
@@ -70,7 +77,6 @@ char	*get_line(char *remainder)
 }
 
 //mover la posición para después del salto de línea, y que siga imprimiendo desde ahí
-//comprobar esta función, último bloque
 char	*move_position(char *remainder)
 {
 	int	i;
@@ -92,6 +98,8 @@ char	*move_position(char *remainder)
 		j++;
 	}
 	new_line[j] = '\0';
+	printf("Move--------%p\n", &remainder);
+	printf("Move2--------%p\n", &new_line);
 	free(remainder);
 	return (new_line);	
 }
@@ -104,34 +112,35 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	buffer = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-	//buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	remainder = read_line(fd, buffer, remainder);
+	printf("0--------%p\n", &remainder);
+	remainder = read_line(fd, buffer, &remainder);
+	printf("1--------%p\n", &remainder);
 	if(!remainder || *remainder == '\0')
 		return (NULL);
 	line = get_line(remainder);
 	remainder = move_position(remainder);
-	//printf("REMAINDER -->%s\n", remainder);
+	printf("2--------%p\n", &remainder);
 	return (line);
 }
 
-/*int main(){
-	int fd;
-	char *line;
+// int main(){
+// 	int fd;
+// 	char *line;
 
-	fd = open("41_with_nl", O_RDONLY);
-	line = get_next_line(fd);
-	//printf("primera llamada ---->%s\n", line);
-	while(line)
-	{
-		printf("----->%s\n", line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	close(fd);
+// 	fd = open("nl", O_RDONLY);
+// 	atexit(leaks);
+// 	line = get_next_line(fd);
+// 	while(line)
+// 	{
+// 		printf("----->%s", line);
+// 		free(line);
+// 		line = get_next_line(fd);
+// 	}
+// 	free(line);
+// 	close(fd);
 		
-	return (0);
-}*/
+// 	return (0);
+// }
