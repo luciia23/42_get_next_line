@@ -80,25 +80,3 @@ char *ft_strjoin(char *s1, char *s2)
     free(s1);
     return (s);
 }
-
-void	*ft_calloc(size_t nmeb, size_t size)
-{
-	void			*s;
-	unsigned int	n;
-	unsigned int	i;
-	
-	n = 0;
-	if (nmeb == SIZE_MAX && size == SIZE_MAX)
-		return (NULL);
-	n = nmeb * size;
-	s = malloc(n);
-	if (!s)
-		return (NULL);
-	i = 0;
-	while (i < n)
-	{
-		((char *)s)[i] = 0;
-		i++;
-	}
-	return (s);
-}

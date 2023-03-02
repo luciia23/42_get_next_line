@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   get_next_line.c									:+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: lcollado <lcollado@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2023/01/14 13:17:53 by lcollado		  #+#	#+#			 */
-/*   Updated: 2023/02/07 16:48:25 by lcollado		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lcollado <lcollado@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/02 17:09:10 by lcollado          #+#    #+#             */
+/*   Updated: 2023/03/02 17:09:25 by lcollado         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
@@ -44,7 +44,6 @@ char *read_line(int fd,char *buffer, char **remainder)
 		tmp = *remainder;
         *remainder = ft_strjoin(tmp, buffer);
     }
-	printf("Read--------%p\n", remainder);
     free(buffer);
     return (*remainder);
 }
@@ -98,8 +97,6 @@ char	*move_position(char *remainder)
 		j++;
 	}
 	new_line[j] = '\0';
-	printf("Move--------%p\n", &remainder);
-	printf("Move2--------%p\n", &new_line);
 	free(remainder);
 	return (new_line);	
 }
@@ -115,14 +112,15 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	printf("0--------%p\n", &remainder);
 	remainder = read_line(fd, buffer, &remainder);
-	printf("1--------%p\n", &remainder);
 	if(!remainder || *remainder == '\0')
+	{
+		free(remainder);
+		remainder = NULL;
 		return (NULL);
+	}
 	line = get_line(remainder);
 	remainder = move_position(remainder);
-	printf("2--------%p\n", &remainder);
 	return (line);
 }
 
@@ -130,7 +128,7 @@ char	*get_next_line(int fd)
 // 	int fd;
 // 	char *line;
 
-// 	fd = open("nl", O_RDONLY);
+// 	fd = open("files/largo.txt", O_RDONLY);
 // 	atexit(leaks);
 // 	line = get_next_line(fd);
 // 	while(line)

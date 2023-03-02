@@ -2,7 +2,6 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "get_next_line.h"
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -20,26 +19,27 @@ char	*ft_strchr(const char *s, int c)
 
 int main(int argc, char **argv)
 {
-	int	 fd;
-	char	*buffer;
-	ssize_t leido;
-	int i;
-	//char	*line = (char *)malloc (1 * sizeof(char));
+	printf("%ld,",sysconf(_SC_OPEN_MAX));
+	// int	 fd;
+	// char	*buffer;
+	// ssize_t leido;
+	// int i;
+	// //char	*line = (char *)malloc (1 * sizeof(char));
 
-	i = 0;
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		return (0);
-	buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
-	while(buffer[i] != '\n')
-	{
-		leido = read(fd, buffer, BUFFER_SIZE);
-		if (leido == 0)
-			break ;
-		printf("\nEl número de caracteres es: %d, contenido %s", (int)leido, buffer);
-	}
-	printf("aaaEl número de caracteres es: %d, contenido %s", (int)leido, buffer);
-	close(fd);
+	// i = 0;
+	// fd = open(argv[1], O_RDONLY);
+	// if (fd == -1)
+	// 	return (0);
+	// buffer = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
+	// while(buffer[i] != '\n')
+	// {
+	// 	leido = read(fd, buffer, BUFFER_SIZE);
+	// 	if (leido == 0)
+	// 		break ;
+	// 	printf("\nEl número de caracteres es: %d, contenido %s", (int)leido, buffer);
+	// }
+	// printf("aaaEl número de caracteres es: %d, contenido %s", (int)leido, buffer);
+	// close(fd);
 	/*while (line != NULL)
 	{
 		free(line);

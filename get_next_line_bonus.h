@@ -1,32 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lcollado <lcollado@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/14 13:13:20 by lcollado          #+#    #+#             */
-/*   Updated: 2023/03/02 16:55:29 by lcollado         ###   ########.fr       */
+/*   Created: 2023/03/02 13:02:37 by lcollado          #+#    #+#             */
+/*   Updated: 2023/03/02 16:55:18 by lcollado         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
+
+#ifndef OPEN_MAX
+# define OPEN_MAX 4096
+#endif
 
 # include <unistd.h>
+# include <fcntl.h>
 # include <stdlib.h>
+# include <limits.h>
+# include <stdarg.h>
 
-//directivas de preprocesador
-//evita la definición múltiple de una variable al utilizar la directiva "#ifndef"
-# ifndef BUFFER_SIZE
-# define  BUFFER_SIZE 42
-#endif 
-
-char	*get_next_line(int fd);
+char    *get_next_line(int fd);
 
 size_t  ft_strlen(const char *str);
 char    *ft_strchr(const char *s, int c);
 char    *ft_strdup(const char *s);
 char    *ft_strjoin(char *s1, char *s2);
-
 #endif
