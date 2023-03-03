@@ -1,9 +1,20 @@
-#include "get_next_line.h"
-#include <stdint.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lcollado <lcollado@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/03 16:37:36 by lcollado          #+#    #+#             */
+/*   Updated: 2023/03/03 16:40:56 by lcollado         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-size_t  ft_strlen(const char *str)
+#include "get_next_line.h"
+
+size_t	ft_strlen(const char *str)
 {
-	size_t  i;
+	size_t	i;
 
 	i = 0;
 	if (str == NULL)
@@ -33,9 +44,9 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strdup(const char *s)
 {
-	int	 len;
+	int		len;
 	char	*str;
-	int	 i;
+	int		i;
 
 	len = ft_strlen((char *)s);
 	str = (char *) malloc (sizeof(char) * (len + 1));
@@ -51,34 +62,33 @@ char	*ft_strdup(const char *s)
 	return (str);
 }
 
-
-char *ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
-    size_t i;
-    size_t j;
-    char *s;
+	size_t	i;
+	size_t	j;
+	char	*s;
 
-    if (!s1)
-    {
-        if (!s2)
-            return (NULL);
-        return (ft_strdup(s2));
-    }
-    s = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
-    if (!s)
-        return (NULL);
-    i = 0;
-    while (s1[i] != 0)
-    {
-        s[i] = s1[i];
-        i++;
-    }
-    j = 0;
-    while (s2[j])
-        s[i++] = s2[j++];
-    s[i] = '\0';
-    free(s1);
-    return (s);
+	if (!s1)
+	{
+		if (!s2)
+			return (NULL);
+		return (ft_strdup(s2));
+	}
+	s = malloc(sizeof(char) * ((ft_strlen(s1) + ft_strlen(s2)) + 1));
+	if (!s)
+		return (NULL);
+	i = 0;
+	while (s1[i] != 0)
+	{
+		s[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+		s[i++] = s2[j++];
+	s[i] = '\0';
+	free(s1);
+	return (s);
 }
 
 void	*ft_calloc(size_t nmeb, size_t size)
@@ -86,7 +96,7 @@ void	*ft_calloc(size_t nmeb, size_t size)
 	void			*s;
 	unsigned int	n;
 	unsigned int	i;
-	
+
 	n = 0;
 	if (nmeb == SIZE_MAX && size == SIZE_MAX)
 		return (NULL);
